@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login de Usuario</title>
+    <link rel="stylesheet" href="w3.css">
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; }
+        form { width: 300px; }
+    </style>
+</head>
+<body>
+    <form class="w3-container w3-card-4 w3-light-grey" id="loginForm">
+        <h2>Iniciar Sesión</h2>
+        <label for="email">Email:</label>
+        <input class="w3-input" type="email" id="email" required>
+
+        <label for="password">Contraseña:</label>
+        <input class="w3-input" type="password" id="password" required>
+
+        <button class="w3-button w3-green w3-margin-top" type="submit">Iniciar Sesión</button>
+        <p id="message"></p>
+    </form>
+
+    <script>
+        // Al enviar el formulario de login
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Enviamos los datos al backend usando Fetch API
+            const res = await fetch('http://localhost:5000/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            
+            //Espero y Obtengo la respuesta y cargo su resultado en el 
+            //elemento de párrafo de id "message".
+            const data = await res.json();
+            document.getElementById('message').textContent = data.message;
+        });
+    </script>
+</body>
+</html>

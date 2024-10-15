@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; }
+        form { width: 300px; }
+    </style>
+</head>
+<body>
+    <form class="w3-container w3-card-4 w3-light-grey" id="registerForm">
+        <h2>Registro</h2>
+        <label for="name">Nombre:</label>
+        <input class="w3-input" type="text" id="name" required>
+
+        <label for="email">Email:</label>
+        <input class="w3-input" type="email" id="email" required>
+
+        <label for="password">Contraseña:</label>
+        <input class="w3-input" type="password" id="password" required>
+
+        <button class="w3-button w3-blue w3-margin-top" type="submit">Registrarse</button>
+        <p id="message"></p>
+    </form>
+
+    <script>
+        // Al enviar el formulario de registro
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Enviamos los datos al backend usando Fetch API
+            const res = await fetch('http://localhost:5000/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password })
+            });
+            
+            const data = await res.json();
+            document.getElementById('message').textContent = data.message;
+        });
+    </script>
+</body>
+</html>
